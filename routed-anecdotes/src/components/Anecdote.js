@@ -5,10 +5,9 @@ const Anecdote = ({ anecdotes, match }) => {
     anecdote => anecdote.id === match.params.id
   )[0];
 
-  console.log("anecdote ", anecdote);
   return (
     <div>
-      <h2>{anecdote.content}</h2>
+      <h2>{anecdote.content} by {anecdote.author}</h2>
       <p>has {anecdote.votes} votes</p>
       <p>
         for more info see <a href={anecdote.info}>{anecdote.info}</a>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
-import Anecdote from './components/Anecdote';
+import Anecdote from "./components/Anecdote";
 
 const Menu = () => {
   const padding = {
@@ -26,7 +26,9 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote => (
-        <Link to={`/anecdotes/${anecdote.id}`} key={anecdote.id}>{anecdote.content}</Link>
+        <li key={anecdote.id}>
+          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
       ))}
     </ul>
   </div>
@@ -81,6 +83,11 @@ const CreateNew = props => {
       info,
       votes: 0
     });
+    props.setNotification(`a new anecdote ${content} created!`);
+    setTimeout(() => {
+      props.setNotification("");
+    }, 10000);
+    props.history.push("/");
   };
 
   return (
@@ -160,6 +167,7 @@ const App = () => {
       <h1>Software anecdotes</h1>
       <BrowserRouter>
         <Menu />
+        {notification && <div>{notification}</div>}
         <Route
           exact
           path="/"
@@ -168,13 +176,19 @@ const App = () => {
         <Route
           exact
           path="/anecdotes/:id"
-          render={(props) => <Anecdote {...props} anecdotes={anecdotes} />}
+          render={props => <Anecdote {...props} anecdotes={anecdotes} />}
         />
         <Route exact path="/about" render={() => <About />} />
         <Route
           exact
           path="/create"
-          render={() => <CreateNew addNew={addNew} />}
+          render={props => (
+            <CreateNew
+              {...props}
+              addNew={addNew}
+              setNotification={setNotification}
+            />
+          )}
         />
       </BrowserRouter>
       <Footer />
