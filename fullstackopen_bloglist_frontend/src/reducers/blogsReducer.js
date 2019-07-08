@@ -1,4 +1,3 @@
-import { getAll } from "../services/blogs";
 import axios from "axios";
 const baseUrl = "/api/blogs";
 
@@ -32,7 +31,7 @@ export const initBlogs = () => {
   };
 };
 
-export const createBlogAction = newObject => {
+export const createBlog = newObject => {
   return async dispatch => {
     try {
       const response = await axios.post(baseUrl, newObject);

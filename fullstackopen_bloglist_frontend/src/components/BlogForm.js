@@ -6,6 +6,7 @@ const BLogFrom = ({ handleCreateBlog, title, author, url }) => {
       <div>
         <label>title:</label>
         <input {...title} />
+        <input onChange={({target}) => console.log(target.value)} />
       </div>
       <div>
         <label>author:</label>

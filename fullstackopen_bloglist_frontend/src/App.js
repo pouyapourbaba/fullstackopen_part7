@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import { useField, useResource } from "./hooks/index";
 import Blog from "./components/Blog";
 import BlogFrom from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import Users from "./components/Users";
 
 // Redux
 import { connect } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
-import { initBlogs } from "./reducers/blogsReducer";
+import { initBlogs, createBlog } from "./reducers/blogsReducer";
 import { login, setUser, logout } from "./reducers/loginReducer";
 
 function App(props) {
@@ -31,7 +33,7 @@ function App(props) {
 
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogListUser");
-    props.logout()
+    props.logout();
   };
 
   const handleCreateBlog = async e => {
@@ -43,24 +45,24 @@ function App(props) {
       author: author.value,
       url: url.value
     };
+    props.createBlog(blog);
 
-    try {
-      await blogService.create(blog);
+    // try {
+    // await blogService.create(blog);
+    title.onReset();
+    author.onReset();
+    url.onReset();
 
-      title.onReset();
-      author.onReset();
-      url.onReset();
-
-      props.setNotification({
-        message: `a new blog ${blog.title} by ${blog.author} added`,
-        type: "success"
-      });
-    } catch (error) {
-      props.setNotification({
-        message: "the blog not added",
-        type: "danger"
-      });
-    }
+    props.setNotification({
+      message: `a new blog ${blog.title} by ${blog.author} added`,
+      type: "success"
+    });
+    // } catch (error) {
+    //   props.setNotification({
+    //     message: "the blog not added",
+    //     type: "danger"
+    //   });
+    // }
   };
 
   useEffect(() => {
@@ -68,7 +70,6 @@ function App(props) {
     props.initBlogs();
     if (loggedUser) {
       const user = JSON.parse(loggedUser);
-      console.log("user ", user);
       props.setUser(user.data);
     }
   }, []);
@@ -93,13 +94,9 @@ function App(props) {
     );
   };
 
-  const userInfoAndBlogs = () => {
+  const Content = () => {
     return (
       <div>
-        <h1>Blogs</h1>
-        <Notification />
-        {props.user.name} logged in{" "}
-        <button onClick={handleLogout}>logout</button>
         <Togglable buttonLabel="new blog" ref={blogFormRef}>
           <div>
             <h2>create new</h2>
@@ -127,7 +124,28 @@ function App(props) {
   };
 
   return (
-    <div className="App">{!props.user ? loginForm() : userInfoAndBlogs()}</div>
+    <BrowserRouter>
+      <div className="App">
+        {!props.user ? (
+          loginForm()
+        ) : (
+          <div>
+            <h1>Blogs</h1>
+            <Notification />
+            <p>
+              {props.user.name} logged in
+            </p>
+            <button onClick={handleLogout}>logout</button>
+            <Route exact path="/" render={() => <Content />} />
+            <Route
+              exact
+              path="/users"
+              render={() => <Users blogs={props.blogs} />}
+            />
+          </div>
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 
@@ -138,5 +156,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setNotification, initBlogs, login, setUser, logout }
+  { setNotification, initBlogs, login, setUser, logout, createBlog }
 )(App);
