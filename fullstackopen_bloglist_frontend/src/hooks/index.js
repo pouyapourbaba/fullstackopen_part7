@@ -27,6 +27,7 @@ export const useResource = baseUrl => {
   useEffect(() => {
     const getAll = async () => {
       const response = await axios.get(baseUrl);
+ console.log("response ", response);
       setResources(response.data.sort((a, b) => b.likes - a.likes));
     };
 

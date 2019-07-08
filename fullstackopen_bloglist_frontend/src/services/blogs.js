@@ -3,9 +3,9 @@ const baseUrl = "/api/blogs";
 
 let token = null;
 
-export const setToken = newToken => {
-  token = `bearer ${newToken}`;
-};
+// export const setToken = newToken => {
+//   token = `bearer ${newToken}`;
+// };
 
 export const getAll = async () => {
   const response = await axios.get(baseUrl);
