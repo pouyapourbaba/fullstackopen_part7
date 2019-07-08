@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Blog = ({ blog, user, handleLike, handleDelete }) => {
-  const [detailsVisible, setDetailsVisible] = useState(false);
+  console.log("blog ", blog);
+  // const [detailsVisible, setDetailsVisible] = useState(false);
 
   const blogStyle = {
     paddingTop: 10,
@@ -13,21 +15,17 @@ const Blog = ({ blog, user, handleLike, handleDelete }) => {
 
   return (
     <div style={blogStyle}>
-      {!detailsVisible ? (
-        <div>
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => setDetailsVisible(!detailsVisible)}
-          >
-            {blog.title}
-          </span>{" "}
-          {blog.author}
-        </div>
-      ) : (
+      <div>
+        <span style={{ cursor: "pointer" }}>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+        </span>
+        {blog.author}
+      </div>
+      {/* ) : (
         <div className="infoWhenClicked">
           <span
             style={{ cursor: "pointer" }}
-            onClick={() => setDetailsVisible(!detailsVisible)}
+            // onClick={() => setDetailsVisible(!detailsVisible)}
           >
             {blog.title}
           </span>
@@ -46,8 +44,7 @@ const Blog = ({ blog, user, handleLike, handleDelete }) => {
           {user.id === blog.user.id && (
             <button onClick={() => handleDelete(blog)}>remove</button>
           )}
-        </div>
-      )}
+        </div> */}
     </div>
   );
 };

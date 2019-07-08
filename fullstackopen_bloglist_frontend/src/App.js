@@ -14,6 +14,7 @@ import { setNotification } from "./reducers/notificationReducer";
 import { initBlogs, createBlog } from "./reducers/blogsReducer";
 import { initUsers } from "./reducers/usersReducer";
 import { login, setUser, logout } from "./reducers/loginReducer";
+import BlogView from "./components/BlogView";
 
 function App(props) {
   const username = useField("text");
@@ -139,6 +140,11 @@ function App(props) {
               exact
               path="/users/:id"
               render={props => <User {...props} blogs={props.blogs} />}
+            />
+            <Route
+              exact
+              path="/blogs/:id"
+              render={props => <BlogView {...props} handleLike={blogService.likeResource} />}
             />
           </div>
         )}
