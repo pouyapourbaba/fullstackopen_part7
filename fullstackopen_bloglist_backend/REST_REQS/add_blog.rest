@@ -1,0 +1,10 @@
+post http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdXlhIiwiaWQiOiI1ZDE3OTUyN2IyYWU4OGE4OWMzMmI2ZWIiLCJpYXQiOjE1NjE4MjgxMDh9.yndqFQFOcr0fcjr0f7UVqLeeyCuY3NoP7wIPmjw0OBA
+
+{
+    "title": "blog with token1",
+    "author": "Pouya",
+    "url": "URL",
+    "likes": 10
+}
