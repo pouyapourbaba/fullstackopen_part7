@@ -14,12 +14,6 @@ const blogsReducer = (state = [], action) => {
 
 export default blogsReducer;
 
-// let token = null;
-
-// export const setToken = newToken => {
-//   token = `bearer ${newToken}`;
-// };
-
 // Actions
 export const initBlogs = () => {
   return async dispatch => {

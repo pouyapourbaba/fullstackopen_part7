@@ -1,14 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Users = ({ blogs }) => {
-  //   console.log(blogs);
-
-  //   [
-  //     {
-  //       name: "",
-  //       blogs: []
-  //     }
-  //   ];
   let users = {};
   const extractUsers = blogs => {
     blogs.forEach(blog => {
@@ -24,7 +17,7 @@ const Users = ({ blogs }) => {
 
   for (const key in users) {
     const element = users[key];
-    blogsCreated.push({ username: key, numberOfBlogs: element.length });
+    blogsCreated.push({ username: key, blogs: element });
   }
 
   return (
@@ -40,8 +33,12 @@ const Users = ({ blogs }) => {
         <tbody>
           {blogsCreated.map(user => (
             <tr key={user.username}>
-              <td>{user.username}</td>
-              <td>{user.numberOfBlogs}</td>
+              <td>
+                <Link to={`/users/${user.blogs[0].user.id}`}>
+                  {user.username}
+                </Link>
+              </td>
+              <td>{user.blogs.length}</td>
             </tr>
           ))}
         </tbody>

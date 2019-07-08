@@ -6,11 +6,13 @@ import BlogFrom from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import Users from "./components/Users";
+import User from "./components/User";
 
 // Redux
 import { connect } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
 import { initBlogs, createBlog } from "./reducers/blogsReducer";
+import { initUsers } from "./reducers/usersReducer";
 import { login, setUser, logout } from "./reducers/loginReducer";
 
 function App(props) {
@@ -47,8 +49,6 @@ function App(props) {
     };
     props.createBlog(blog);
 
-    // try {
-    // await blogService.create(blog);
     title.onReset();
     author.onReset();
     url.onReset();
@@ -57,17 +57,12 @@ function App(props) {
       message: `a new blog ${blog.title} by ${blog.author} added`,
       type: "success"
     });
-    // } catch (error) {
-    //   props.setNotification({
-    //     message: "the blog not added",
-    //     type: "danger"
-    //   });
-    // }
   };
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem("loggedBlogListUser");
     props.initBlogs();
+    props.initUsers();
     if (loggedUser) {
       const user = JSON.parse(loggedUser);
       props.setUser(user.data);
@@ -132,15 +127,18 @@ function App(props) {
           <div>
             <h1>Blogs</h1>
             <Notification />
-            <p>
-              {props.user.name} logged in
-            </p>
+            <p>{props.user.name} logged in</p>
             <button onClick={handleLogout}>logout</button>
             <Route exact path="/" render={() => <Content />} />
             <Route
               exact
               path="/users"
               render={() => <Users blogs={props.blogs} />}
+            />
+            <Route
+              exact
+              path="/users/:id"
+              render={props => <User {...props} blogs={props.blogs} />}
             />
           </div>
         )}
@@ -156,5 +154,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setNotification, initBlogs, login, setUser, logout, createBlog }
+  { setNotification, initUsers, initBlogs, login, setUser, logout, createBlog }
 )(App);
