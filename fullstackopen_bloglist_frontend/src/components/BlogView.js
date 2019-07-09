@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { addComment } from "../reducers/blogsReducer";
 
 const BlogView = props => {
+  const [comment, setComment] = useState({content: ""});
+
   if (props.blogs.length === 0) return null;
   const blog = props.blogs.find(blog => blog.id === props.match.params.id);
+
+  const handleSubmitComment = e => {
+    e.preventDefault();
+
+    props.addComment(comment, blog.id);
+  };
 
   return (
     <div>
@@ -17,9 +26,21 @@ const BlogView = props => {
       <br />
       added by {blog.user.username}
       <h3>comments</h3>
-      {blog.comments && <ul>
-        {blog.comments.map(comment => <li key={comment._id}>{comment.content}</li>)}
-      </ul>}
+      <form onSubmit={handleSubmitComment}>
+        <input
+          type="text"
+          placeholder="type your comment"
+          onChange={({ target }) => setComment({content: target.value})}
+        />
+        <button>add comment</button>
+      </form>
+      {blog.comments && (
+        <ul>
+          {blog.comments.map(comment => (
+            <li key={comment._id}>{comment.content}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
@@ -28,4 +49,7 @@ const mapStateToProps = state => ({
   blogs: state.blogs
 });
 
-export default connect(mapStateToProps)(BlogView);
+export default connect(
+  mapStateToProps,
+  { addComment }
+)(BlogView);
