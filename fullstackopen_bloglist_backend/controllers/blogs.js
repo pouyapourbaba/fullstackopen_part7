@@ -17,9 +17,8 @@ blogsRouter.post("/", async (req, res, next) => {
   try {
     let blog = req.body;
     token = req.token;
-    
+
     token = token.split(",")[0];
-    console.log("token controller", token);
     const decodedToken = jwt.verify(token, process.env.JWTSECRET);
     if (!decodedToken.id) {
       response.status(401).json({ error: "token missing or invalid" });
@@ -72,5 +71,22 @@ blogsRouter.put("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+// Comment
+blogsRouter.post("/:id/comments", async (req, res, next) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if(blog) {
+      blog.comments.push(req.body)
+      await blog.save()
+      res.json(blog)
+    } else {
+      res.status(404).send({error: "blog not found"})
+    }
+
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = blogsRouter;

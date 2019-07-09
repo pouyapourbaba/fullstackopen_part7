@@ -1,10 +1,7 @@
-post http://localhost:3003/api/blogs
+post http://localhost:3003/api/blogs/5d19a60623c9df27f8af4224/comments
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhbWlkX3VzZXJuYW1lIiwiaWQiOiI1ZDE5YTNhOWFlZDhlOWUyNDA4NGFlNTgiLCJpYXQiOjE1NjI2NTk4NTZ9.lYZUS6CkE5FGtqxugu_lJJJV3vhUBhPPZi7jy2-Xda4
 
 {
-    "title": "blog with token2",
-    "author": "Pouya",
-    "url": "URL",
-    "likes": 10
+    "content": "I am an other comment"
 }

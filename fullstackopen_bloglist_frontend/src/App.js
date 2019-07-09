@@ -15,6 +15,7 @@ import { initBlogs, createBlog } from "./reducers/blogsReducer";
 import { initUsers } from "./reducers/usersReducer";
 import { login, setUser, logout } from "./reducers/loginReducer";
 import BlogView from "./components/BlogView";
+import Navigation from "./components/Navigation";
 
 function App(props) {
   const username = useField("text");
@@ -34,10 +35,7 @@ function App(props) {
     password.onReset();
   };
 
-  const handleLogout = () => {
-    window.localStorage.removeItem("loggedBlogListUser");
-    props.logout();
-  };
+  
 
   const handleCreateBlog = async e => {
     e.preventDefault();
@@ -126,10 +124,9 @@ function App(props) {
           loginForm()
         ) : (
           <div>
+            <Navigation user={props.user} logout={props.logout} />
             <h1>Blogs</h1>
             <Notification />
-            <p>{props.user.name} logged in</p>
-            <button onClick={handleLogout}>logout</button>
             <Route exact path="/" render={() => <Content />} />
             <Route
               exact
@@ -144,7 +141,9 @@ function App(props) {
             <Route
               exact
               path="/blogs/:id"
-              render={props => <BlogView {...props} handleLike={blogService.likeResource} />}
+              render={props => (
+                <BlogView {...props} handleLike={blogService.likeResource} />
+              )}
             />
           </div>
         )}

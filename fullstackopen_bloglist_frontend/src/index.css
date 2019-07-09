@@ -18,3 +18,18 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.navigation {
+  background-color: #aaa;
+}
+
+.navigation ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  
+}
+
+.navigation li {
+  margin-left: 10px;
+}

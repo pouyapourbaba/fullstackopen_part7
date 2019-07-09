@@ -16,6 +16,10 @@ const BlogView = props => {
       </span>
       <br />
       added by {blog.user.username}
+      <h3>comments</h3>
+      {blog.comments && <ul>
+        {blog.comments.map(comment => <li key={comment._id}>{comment.content}</li>)}
+      </ul>}
     </div>
   );
 };
