@@ -16,8 +16,7 @@ blogsRouter.get("/", async (req, res, next) => {
 blogsRouter.post("/", async (req, res, next) => {
   try {
     let blog = req.body;
-    token = req.token;
-
+    let token = req.token;
     token = token.split(",")[0];
     const decodedToken = jwt.verify(token, process.env.JWTSECRET);
     if (!decodedToken.id) {
@@ -32,7 +31,11 @@ blogsRouter.post("/", async (req, res, next) => {
 
     blog = new Blog({ ...req.body, user: user.id });
 
-    const result = await blog.save();
+    let result = await blog.save();
+
+    // populate the user after saveing the blog
+    result = await result.populate("user").execPopulate()
+
     user.blogs = user.blogs.concat(result.id);
 
     await user.save();
@@ -42,14 +45,25 @@ blogsRouter.post("/", async (req, res, next) => {
   }
 });
 
+// delete
 blogsRouter.delete("/:id", async (req, res, next) => {
   try {
-    const token = req.token;
+    let token = req.token;
+    token = token.split(",")[0];
+
     const decodedToken = jwt.verify(token, process.env.JWTSECRET);
     const blog = await Blog.findById(req.params.id);
+
+    // Check if the they own the blog
     if (blog.user.toString() === decodedToken.id) {
       const deletedBlog = await Blog.deleteOne({ _id: req.params.id });
-      if (deletedBlog) res.status(204).end();
+      if (deletedBlog) {
+        // delete the blogs id from the User model
+        const user = await User.findById({ _id: blog.user })
+        user.blogs = user.blogs.filter(blog => blog.toString() !== req.params.id)
+        await user.save()
+
+        res.status(204).end()}
       else res.status(404).end();
     } else {
       res.status(403).send({ error: "not authorized to delete this post" });
@@ -61,11 +75,12 @@ blogsRouter.delete("/:id", async (req, res, next) => {
 
 blogsRouter.put("/:id", async (req, res, next) => {
   try {
-    const newBlog = await Blog.findOneAndUpdate(req.params.id, req.body, {
-      new: true
-    });
-    newBlog;
-    if (newBlog) return res.json(newBlog);
+    const blog = await Blog.findById({_id: req.params.id})
+    blog.likes = blog.likes + 1;
+    let result = await blog.save()
+    // populate the user after saveing the blog
+    result = await result.populate("user").execPopulate()
+    if (result) return res.json(result);
     else return res.status(404).end();
   } catch (error) {
     next(error);
@@ -78,7 +93,9 @@ blogsRouter.post("/:id/comments", async (req, res, next) => {
     const blog = await Blog.findById(req.params.id);
     if(blog) {
       blog.comments.push(req.body)
-      await blog.save()
+      let result = await blog.save()
+      // populate the user after saveing the blog
+      result = await result.populate("user").execPopulate()
       res.json(blog)
     } else {
       res.status(404).send({error: "blog not found"})

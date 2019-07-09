@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addComment } from "../reducers/blogsReducer";
+import { addComment, likeBlog, deleteBlog } from "../reducers/blogsReducer";
 
 const BlogView = props => {
-  const [comment, setComment] = useState({content: ""});
+  const [comment, setComment] = useState({ content: "" });
 
-  if (props.blogs.length === 0) return null;
+  if (props.blogs.length === 0) return <div>No Blogs Found..</div>;
   const blog = props.blogs.find(blog => blog.id === props.match.params.id);
 
   const handleSubmitComment = e => {
     e.preventDefault();
-
     props.addComment(comment, blog.id);
+  };
+
+  const handleDelete = blog => {
+    props.deleteBlog(blog);
+    props.history.push("/");
   };
 
   return (
@@ -21,16 +25,20 @@ const BlogView = props => {
       <br />
       <span>
         {blog.likes} likes{" "}
-        <button onClick={() => props.handleLike(blog)}>like</button>
+        <button onClick={() => props.likeBlog(blog)}>like</button>
       </span>
       <br />
       added by {blog.user.username}
+      <br />
+      {props.user.id === blog.user.id && 
+        <button onClick={() => handleDelete(blog)}>delete</button>
+      }
       <h3>comments</h3>
       <form onSubmit={handleSubmitComment}>
         <input
           type="text"
           placeholder="type your comment"
-          onChange={({ target }) => setComment({content: target.value})}
+          onChange={({ target }) => setComment({ content: target.value })}
         />
         <button>add comment</button>
       </form>
@@ -46,10 +54,11 @@ const BlogView = props => {
 };
 
 const mapStateToProps = state => ({
-  blogs: state.blogs
+  blogs: state.blogs,
+  user: state.user
 });
 
 export default connect(
   mapStateToProps,
-  { addComment }
+  { addComment, likeBlog, deleteBlog }
 )(BlogView);

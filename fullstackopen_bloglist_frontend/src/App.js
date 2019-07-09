@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { useField, useResource } from "./hooks/index";
+import { useField } from "./hooks/index";
 import Blog from "./components/Blog";
 import BlogFrom from "./components/BlogForm";
 import Notification from "./components/Notification";
@@ -20,10 +20,6 @@ import Navigation from "./components/Navigation";
 function App(props) {
   const username = useField("text");
   const password = useField("text");
-  const title = useField("text");
-  const author = useField("text");
-  const url = useField("text");
-  const [blogss, blogService] = useResource("/api/blogs");
   const blogFormRef = React.createRef();
 
   const handleLogin = async e => {
@@ -33,29 +29,6 @@ function App(props) {
     props.login(user);
     username.onReset();
     password.onReset();
-  };
-
-  
-
-  const handleCreateBlog = async e => {
-    e.preventDefault();
-    blogFormRef.current.toggleVisibility();
-
-    const blog = {
-      title: title.value,
-      author: author.value,
-      url: url.value
-    };
-    props.createBlog(blog);
-
-    title.onReset();
-    author.onReset();
-    url.onReset();
-
-    props.setNotification({
-      message: `a new blog ${blog.title} by ${blog.author} added`,
-      type: "success"
-    });
   };
 
   useEffect(() => {
@@ -94,23 +67,12 @@ function App(props) {
         <Togglable buttonLabel="new blog" ref={blogFormRef}>
           <div>
             <h2>create new</h2>
-            <BlogFrom
-              handleCreateBlog={handleCreateBlog}
-              author={author}
-              title={title}
-              url={url}
-            />
+            <BlogFrom />
           </div>
         </Togglable>
         <div>
           {props.blogs.map(blog => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              user={props.user}
-              handleLike={blogService.likeResource}
-              handleDelete={blogService.deleteRecource}
-            />
+            <Blog key={blog.id} blog={blog} />
           ))}
         </div>
       </div>
@@ -128,11 +90,7 @@ function App(props) {
             <h1>Blogs</h1>
             <Notification />
             <Route exact path="/" render={() => <Content />} />
-            <Route
-              exact
-              path="/users"
-              render={() => <Users blogs={props.blogs} />}
-            />
+            <Route exact path="/users" render={() => <Users />} />
             <Route
               exact
               path="/users/:id"
@@ -141,9 +99,7 @@ function App(props) {
             <Route
               exact
               path="/blogs/:id"
-              render={props => (
-                <BlogView {...props} handleLike={blogService.likeResource} />
-              )}
+              render={props => <BlogView {...props} />}
             />
           </div>
         )}

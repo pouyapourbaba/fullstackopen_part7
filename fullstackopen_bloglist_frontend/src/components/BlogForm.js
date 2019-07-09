@@ -1,24 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { createBlog } from "./../reducers/blogsReducer";
 
-const BLogFrom = ({ handleCreateBlog, title, author, url }) => {
+const BLogFrom = props => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const blog = {
+      title,
+      author,
+      url
+    };
+
+    props.createBlog(blog);
+  };
+
   return (
-    <form onSubmit={handleCreateBlog}>
+    <form onSubmit={handleSubmit}>
       <div>
         <label>title:</label>
-        <input {...title} />
-        <input onChange={({target}) => console.log(target.value)} />
+        <input onChange={({ target }) => setTitle(target.value)} />
       </div>
       <div>
         <label>author:</label>
-        <input {...author} />
+        <input onChange={({ target }) => setAuthor(target.value)} />
       </div>
       <div>
         <label>url:</label>
-        <input {...url} />
+        <input onChange={({ target }) => setUrl(target.value)} />
       </div>
-      <button onClick={handleCreateBlog}>create</button>
+      <button type="submit">create</button>
     </form>
   );
 };
 
-export default BLogFrom;
+export default connect(
+  null,
+  { createBlog }
+)(BLogFrom);

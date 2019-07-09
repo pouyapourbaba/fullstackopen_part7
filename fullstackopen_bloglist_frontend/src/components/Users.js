@@ -1,25 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Users = ({ blogs }) => {
-  let users = {};
-  const extractUsers = blogs => {
-    blogs.forEach(blog => {
-      users.hasOwnProperty(blog.user.username)
-        ? users[blog.user.username].push(blog)
-        : (users[blog.user.username] = [blog]);
-    });
-  };
-
-  extractUsers(blogs);
-
-  const blogsCreated = [];
-
-  for (const key in users) {
-    const element = users[key];
-    blogsCreated.push({ username: key, blogs: element });
-  }
-
+const Users = ({ users }) => {
   return (
     <div>
       <h2>Users</h2>
@@ -31,12 +14,10 @@ const Users = ({ blogs }) => {
           </tr>
         </thead>
         <tbody>
-          {blogsCreated.map(user => (
+          {users.map(user => (
             <tr key={user.username}>
               <td>
-                <Link to={`/users/${user.blogs[0].user.id}`}>
-                  {user.username}
-                </Link>
+                <Link to={`/users/${user.id}`}>{user.username}</Link>
               </td>
               <td>{user.blogs.length}</td>
             </tr>
@@ -47,4 +28,8 @@ const Users = ({ blogs }) => {
   );
 };
 
-export default Users;
+const mapStateToProps = state => ({
+  users: state.users
+});
+
+export default connect(mapStateToProps)(Users);

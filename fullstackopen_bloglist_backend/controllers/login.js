@@ -8,7 +8,7 @@ loginRouter.post("/", async (req, res, next) => {
   const { body } = req;
   try {
     const user = await User.findOne({ username: body.username });
- 
+
     const passwordCorrect =
       user === null
         ? false
@@ -27,7 +27,7 @@ loginRouter.post("/", async (req, res, next) => {
 
     const token = jwt.sign(userForToken, process.env.JWTSECRET);
 
-    res.status(200).send({ token, username: user.username, name: user.name });
+    res.status(200).send({ token, username: user.username, name: user.name, id: user._id});
   } catch (error) {
     next(error);
   }

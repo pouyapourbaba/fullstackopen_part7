@@ -32,6 +32,7 @@ export const login = user => {
         type: "LOGIN_SUCCESS",
         payload: loggedInUser.data
       });
+      dispatch(setUser(loggedInUser.data))
     } catch (error) {
       dispatch(
         setNotification({ message: "Invalid credentials", type: "danger" })
