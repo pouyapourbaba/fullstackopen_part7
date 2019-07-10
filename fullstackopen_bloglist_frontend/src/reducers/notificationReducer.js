@@ -17,7 +17,7 @@ export default notificatoinReducer;
 export const setNotification = (notification, duration = 5000) => {
   return dispatch => {
     const id = uuid();
-    notification.id = id; 
+    notification.id = id;
     dispatch({
       type: "SET_NOTIFICATION",
       payload: notification

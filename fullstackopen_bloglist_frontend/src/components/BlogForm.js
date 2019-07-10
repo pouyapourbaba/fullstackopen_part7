@@ -30,37 +30,37 @@ const BLogFrom = props => {
   };
 
   return (
-    <Segment >
-    <Form size="tiny" onSubmit={handleSubmit}>
-      <Form.Group widths="equal">
-        <Form.Input
-          onChange={({ target }) => setTitle(target.value)}
-          fluid
-          label="Title"
-          placeholder="Title"
-          value={title}
-          required
-        />
-        <Form.Input
-          onChange={({ target }) => setAuthor(target.value)}
-          fluid
-          label="Author"
-          placeholder="Author"
-          value={author}
-        />
-        <Form.Input
-          onChange={({ target }) => setUrl(target.value)}
-          fluid
-          label="Url"
-          placeholder="Url"
-          value={url}
-        />
-      </Form.Group>
-      <Button size="small" type="submit">
-        Submit
-      </Button>
-    </Form>
-     </Segment>
+    <Segment>
+      <Form size="tiny" onSubmit={handleSubmit}>
+        <Form.Group widths="equal">
+          <Form.Input
+            onChange={({ target }) => setTitle(target.value)}
+            fluid
+            label="Title"
+            placeholder="Title"
+            value={title}
+            required
+          />
+          <Form.Input
+            onChange={({ target }) => setAuthor(target.value)}
+            fluid
+            label="Author"
+            placeholder="Author"
+            value={author}
+          />
+          <Form.Input
+            onChange={({ target }) => setUrl(target.value)}
+            fluid
+            label="Url"
+            placeholder="Url"
+            value={url}
+          />
+        </Form.Group>
+        <Button size="small" type="submit">
+          Submit
+        </Button>
+      </Form>
+    </Segment>
   );
 };
 

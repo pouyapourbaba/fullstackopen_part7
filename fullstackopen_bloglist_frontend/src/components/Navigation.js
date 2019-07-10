@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Menu, Segment } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 
 const Navigation = props => {
   const pathname = props.location.pathname;
   const currentPath = pathname.slice(1, pathname.length);
-  
+
   const [activeItem, setActiveItem] = useState(currentPath);
 
   const handleItemClick = (e, { name }) => setActiveItem(name);

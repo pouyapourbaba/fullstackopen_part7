@@ -1,5 +1,5 @@
 import React, { useState, useImperativeHandle } from "react";
-import { Button, Segment } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 const Togglable = React.forwardRef((props, ref) => {
@@ -19,27 +19,25 @@ const Togglable = React.forwardRef((props, ref) => {
   });
 
   return (
-      <div>
-        <div className={hideWhenVisible}>
-          {!visible ? (
-            <Button size="small" color="teal" onClick={toggleVisibility}>
-              {props.buttonLabel}
-            </Button>
-          ) : (
-            <Button
-              color="red"
-              size="small"
-              onClick={toggleVisibility}
-              style={{ marginTop: "10px" }}
-            >
-              cancel
-            </Button>
-          )}
-        </div>
-        <div style={showWhenVisible}>
-          {props.children}
-        </div>
+    <div>
+      <div className={hideWhenVisible}>
+        {!visible ? (
+          <Button size="small" color="teal" onClick={toggleVisibility}>
+            {props.buttonLabel}
+          </Button>
+        ) : (
+          <Button
+            color="red"
+            size="small"
+            onClick={toggleVisibility}
+            style={{ marginTop: "10px" }}
+          >
+            cancel
+          </Button>
+        )}
       </div>
+      <div style={showWhenVisible}>{props.children}</div>
+    </div>
   );
 });
 

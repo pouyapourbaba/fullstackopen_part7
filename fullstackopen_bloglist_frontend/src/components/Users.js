@@ -16,7 +16,7 @@ const Users = ({ users }) => {
             </Table.Row>
           </Table.Header>
           {users.map(user => (
-            <Table.Body>
+            <Table.Body key={user.id}>
               <Table.Row>
                 <Table.Cell>
                   <Header as="h4">

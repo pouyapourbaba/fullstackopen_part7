@@ -2,7 +2,7 @@ import React from "react";
 import Togglable from "./Togglable";
 import Blog from "./Blog";
 import BlogFrom from "./BlogForm";
-import { Segment } from 'semantic-ui-react';
+import { Segment } from "semantic-ui-react";
 
 const Home = props => {
   const blogFormRef = React.createRef();

@@ -39,21 +39,21 @@ const BlogView = props => {
     <Segment>
       <h2>{blog.title}</h2>
       <Table definition>
-      <Table.Body>
-        <Table.Row>
-          <Table.Cell width={2}>Author</Table.Cell>
-          <Table.Cell>{blog.author}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>URL</Table.Cell>
-          <Table.Cell>{blog.url}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Added by</Table.Cell>
-          <Table.Cell>{blog.user.username}</Table.Cell>
-        </Table.Row>
-      </Table.Body>
-    </Table>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell width={2}>Author</Table.Cell>
+            <Table.Cell>{blog.author}</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>URL</Table.Cell>
+            <Table.Cell>{blog.url}</Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Added by</Table.Cell>
+            <Table.Cell>{blog.user.username}</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
       {props.user.id === blog.user.id ? (
         <Button.Group size="large">
           <Button as="div" labelPosition="left">

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Segment, List, Icon } from "semantic-ui-react";
+import { List, Icon } from "semantic-ui-react";
 
 const Blog = ({ blog }) => {
   const segmentStyle = {
