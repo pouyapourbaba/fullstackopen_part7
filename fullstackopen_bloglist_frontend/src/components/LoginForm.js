@@ -6,20 +6,20 @@ const LoginForm = props => {
   return (
     <div>
       <Header style={{ marginTop: "20px" }} size="huge">
-        Login to the application
+        Log in to the application
       </Header>
       <Notification />
 
-      <Form onSubmit={props.handleLogin}>
+      <Form onSubmit={props.handleLogin} data-cy="loginForm">
         <Form.Field>
           <label>Username</label>
-          <input {...props.username} placeholder="Username" />
+          <input {...props.username} placeholder="Username" data-cy="username" />
         </Form.Field>
         <Form.Field>
           <label>Password</label>
-          <input {...props.password} placeholder="Password" />
+          <input {...props.password} placeholder="Password" data-cy="password" />
         </Form.Field>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" data-cy="login">Login</Button>
       </Form>
     </div>
   );

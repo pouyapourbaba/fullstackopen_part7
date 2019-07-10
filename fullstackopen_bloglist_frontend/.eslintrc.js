@@ -11,6 +11,7 @@ module.exports = {
       ecmaVersion: 2018,
       sourceType: "module"
     },
+    plugins: ["react", "jest", "react-hooks"],
     rules: {
       indent: ["error", 2, {"SwitchCase": 1}],
       "linebreak-style": ["error", "windows"],
