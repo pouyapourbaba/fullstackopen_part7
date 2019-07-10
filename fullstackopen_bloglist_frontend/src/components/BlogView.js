@@ -57,16 +57,31 @@ const BlogView = props => {
       {props.user.id === blog.user.id ? (
         <Button.Group size="large">
           <Button as="div" labelPosition="left">
-            <Label color="green" as="a" basic pointing="right">
+            <Label
+              data-cy="numberOfLikes"
+              color="green"
+              as="a"
+              basic
+              pointing="right"
+            >
               {blog.likes}
             </Label>
-            <Button color="green" icon onClick={() => props.likeBlog(blog)}>
+            <Button
+              data-cy="likeBlog"
+              color="green"
+              icon
+              onClick={() => props.likeBlog(blog)}
+            >
               <Icon name="heart" />
               Like
             </Button>
           </Button>
           <Button.Or />
-          <Button color="red" onClick={() => handleDelete(blog)}>
+          <Button
+            data-cy="deleteBlog"
+            color="red"
+            onClick={() => handleDelete(blog)}
+          >
             delete
           </Button>
         </Button.Group>
@@ -88,15 +103,17 @@ const BlogView = props => {
         </Header>
       </Divider>
       <Form onSubmit={handleSubmitComment}>
-        <Form.Group>
-          <Form.Input
-            placeholder="Comment"
-            value={comment.content}
+        <Form.Field>
+          <label>Title</label>
+          <input
             onChange={({ target }) => setComment({ content: target.value })}
+            placeholder="Comment"
+            data-cy="comment"
+            value={comment.content}
+            required
           />
-
-          <Form.Button content="Submit" />
-        </Form.Group>
+        </Form.Field>
+        <Form.Button size="small" content="Submit" data-cy="submitComment" />
       </Form>
       {blog.comments && (
         <Comment.Group>

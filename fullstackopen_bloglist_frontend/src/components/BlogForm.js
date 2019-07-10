@@ -32,31 +32,35 @@ const BLogFrom = props => {
   return (
     <Segment>
       <Form size="tiny" onSubmit={handleSubmit}>
-        <Form.Group widths="equal">
-          <Form.Input
+        <Form.Field>
+          <label>Title</label>
+          <input
             onChange={({ target }) => setTitle(target.value)}
-            fluid
-            label="Title"
             placeholder="Title"
+            data-cy="title"
             value={title}
             required
           />
-          <Form.Input
+        </Form.Field>
+        <Form.Field>
+          <label>Author</label>
+          <input
             onChange={({ target }) => setAuthor(target.value)}
-            fluid
-            label="Author"
-            placeholder="Author"
+            placeholder="author"
+            data-cy="author"
             value={author}
           />
-          <Form.Input
+        </Form.Field>
+        <Form.Field>
+          <label>Url</label>
+          <input
             onChange={({ target }) => setUrl(target.value)}
-            fluid
-            label="Url"
-            placeholder="Url"
+            placeholder="url"
+            data-cy="url"
             value={url}
           />
-        </Form.Group>
-        <Button size="small" type="submit">
+        </Form.Field>
+        <Button size="small" type="submit" data-cy="submitNewBlog">
           Submit
         </Button>
       </Form>

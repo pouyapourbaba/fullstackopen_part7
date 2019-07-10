@@ -14,7 +14,7 @@ const Blog = ({ blog }) => {
           <Icon name="caret right" />
           <List.Content>
             <List.Header>
-              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> by{" "}
+              <Link data-cy="linkToBlogDetails" to={`/blogs/${blog.id}`}>{blog.title}</Link> by{" "}
               {blog.author}
             </List.Header>
           </List.Content>

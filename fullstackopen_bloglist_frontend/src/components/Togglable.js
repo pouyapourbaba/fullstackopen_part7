@@ -22,7 +22,12 @@ const Togglable = React.forwardRef((props, ref) => {
     <div>
       <div className={hideWhenVisible}>
         {!visible ? (
-          <Button size="small" color="teal" onClick={toggleVisibility}>
+          <Button
+            size="small"
+            color="teal"
+            onClick={toggleVisibility}
+            data-cy="newBlogBtn"
+          >
             {props.buttonLabel}
           </Button>
         ) : (
@@ -30,6 +35,7 @@ const Togglable = React.forwardRef((props, ref) => {
             color="red"
             size="small"
             onClick={toggleVisibility}
+            data-cy="cancelNewBlogBtn"
             style={{ marginTop: "10px" }}
           >
             cancel
