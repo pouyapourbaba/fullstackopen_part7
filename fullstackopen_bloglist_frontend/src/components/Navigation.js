@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import { Menu, Segment } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 
 const Navigation = props => {
+  const pathname = props.location.pathname;
+  const currentPath = pathname.slice(1, pathname.length);
+  
+  const [activeItem, setActiveItem] = useState(currentPath);
+
+  const handleItemClick = (e, { name }) => setActiveItem(name);
+
   const handleLogout = () => {
     window.localStorage.removeItem("loggedBlogListUser");
     props.logout();
@@ -9,20 +17,31 @@ const Navigation = props => {
   };
 
   return (
-    <div className="navigation">
-      <ul>
-        <li>
-          <Link to="/">blogs</Link>
-        </li>
-        <li>
-          <Link to="/users">users</Link>
-        </li>
-        <li>
-          {props.user.name} logged in
-          <button onClick={handleLogout}>logout</button>
-        </li>
-      </ul>
-    </div>
+    <React.Fragment>
+      <Menu>
+        <Menu.Item
+          name="blogs"
+          active={activeItem === "blogs"}
+          onClick={handleItemClick}
+          as={Link}
+          to="/"
+        />
+        <Menu.Item
+          name="users"
+          active={activeItem === "users"}
+          onClick={handleItemClick}
+          as={Link}
+          to="/users"
+        />
+        <Menu.Menu position="right">
+          <Menu.Item
+            name="logout"
+            active={activeItem === "logout"}
+            onClick={handleLogout}
+          />
+        </Menu.Menu>
+      </Menu>
+    </React.Fragment>
   );
 };
 

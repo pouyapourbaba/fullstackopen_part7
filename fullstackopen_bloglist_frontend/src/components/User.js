@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { List, Icon, Segment } from "semantic-ui-react";
 
 const User = props => {
   const user = props.users.find(user => user.id === props.match.params.id);
@@ -11,13 +12,19 @@ const User = props => {
 
   return (
     <div>
-      <h2>{user.username}</h2>
-      <p>added blogs</p>
-      <ul>
-        {userBlogs.map(blog => (
-          <li key={blog.id}>{blog.title}</li>
-        ))}
-      </ul>
+      <h2>Blogs added by {user.username}</h2>
+      <Segment>
+        <List>
+          {userBlogs.map(blog => (
+            <List.Item key={blog.id}>
+              <Icon name="caret right" />
+              <List.Content>
+                <List.Header>{blog.title}</List.Header>
+              </List.Content>
+            </List.Item>
+          ))}
+        </List>
+      </Segment>
     </div>
   );
 };

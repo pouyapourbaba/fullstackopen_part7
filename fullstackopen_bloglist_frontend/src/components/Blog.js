@@ -1,24 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Segment, List, Icon } from "semantic-ui-react";
 
 const Blog = ({ blog }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5
+  const segmentStyle = {
+    marginTop: "10px"
   };
 
   return (
-    <div style={blogStyle}>
-      <div>
-        <span style={{ cursor: "pointer" }}>
-          <Link to={`/blogs/${blog.id}`}>
-            {blog.title} {blog.author}
-          </Link>
-        </span>
-      </div>
+    <div style={segmentStyle}>
+      <List>
+        <List.Item>
+          <Icon name="caret right" />
+          <List.Content>
+            <List.Header>
+              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> by{" "}
+              {blog.author}
+            </List.Header>
+          </List.Content>
+        </List.Item>
+      </List>
     </div>
   );
 };

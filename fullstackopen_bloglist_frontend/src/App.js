@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { useField } from "./hooks/index";
-import Blog from "./components/Blog";
-import BlogFrom from "./components/BlogForm";
 import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
 import Users from "./components/Users";
 import User from "./components/User";
+import { Container } from "semantic-ui-react";
 
 // Redux
 import { connect } from "react-redux";
@@ -16,11 +14,12 @@ import { initUsers } from "./reducers/usersReducer";
 import { login, setUser, logout } from "./reducers/loginReducer";
 import BlogView from "./components/BlogView";
 import Navigation from "./components/Navigation";
+import LoginForm from "./components/LoginForm";
+import Home from "./components/Home";
 
 function App(props) {
   const username = useField("text");
   const password = useField("text");
-  const blogFormRef = React.createRef();
 
   const handleLogin = async e => {
     e.preventDefault();
@@ -41,68 +40,39 @@ function App(props) {
     }
   }, []);
 
-  const loginForm = () => {
-    return (
-      <div>
-        <h1>log in to application</h1>
-        <Notification />
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>username</label>
-            <input {...username} />
-          </div>
-          <div>
-            <label>password</label>
-            <input {...password} />
-          </div>
-          <button type="submit">login</button>
-        </form>
-      </div>
-    );
-  };
-
-  const Content = () => {
-    return (
-      <div>
-        <Togglable buttonLabel="new blog" ref={blogFormRef}>
-          <div>
-            <h2>create new</h2>
-            <BlogFrom />
-          </div>
-        </Togglable>
-        <div>
-          {props.blogs.map(blog => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <BrowserRouter>
       <div className="App">
-        {!props.user ? (
-          loginForm()
-        ) : (
-          <div>
-            <Navigation user={props.user} logout={props.logout} />
-            <h1>Blogs</h1>
-            <Notification />
-            <Route exact path="/" render={() => <Content />} />
-            <Route exact path="/users" render={() => <Users />} />
-            <Route
-              exact
-              path="/users/:id"
-              render={props => <User {...props} blogs={props.blogs} />}
+        <Container>
+          {!props.user ? (
+            <LoginForm
+              handleLogin={handleLogin}
+              username={username}
+              password={password}
             />
-            <Route
-              exact
-              path="/blogs/:id"
-              render={props => <BlogView {...props} />}
-            />
-          </div>
-        )}
+          ) : (
+            <div>
+              <Navigation user={props.user} logout={props.logout} />
+              <Notification />
+              <Route
+                exact
+                path="/"
+                render={() => <Home blogs={props.blogs} />}
+              />
+              <Route exact path="/users" render={() => <Users />} />
+              <Route
+                exact
+                path="/users/:id"
+                render={props => <User {...props} blogs={props.blogs} />}
+              />
+              <Route
+                exact
+                path="/blogs/:id"
+                render={props => <BlogView {...props} />}
+              />
+            </div>
+          )}
+        </Container>
       </div>
     </BrowserRouter>
   );
